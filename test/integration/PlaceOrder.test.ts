@@ -9,21 +9,20 @@ import PostgreSQLConnectionAdapter from "../../src/infra/database/PostgreSQLConn
 import Connection from "../../src/infra/database/Connection";
 import ItemRepositoryDatabase from "../../src/infra/repository/database/ItemRepositoryDatabase";
 import CouponRepositoryDatabase from "../../src/infra/repository/database/CouponRepositoryDatabase";
+import RepositoryFactory from "../../src/domain/factory/RepositoryFactory";
+import MemoryRepositoryFactory from "../../src/infra/factory/MemoryRepositoryFactory";
+import DatabaseRepositoryFactory from "../../src/infra/factory/DatabaseRepositoryFactory";
 
 let connection: Connection;
-let itemRepository: ItemRepository;
-let orderRepository: OrderRepository;
-let couponRepository: CouponRepository;
+let repositoryFactory: RepositoryFactory;
 
 beforeEach(function () {
 	connection = new PostgreSQLConnectionAdapter();
-	itemRepository = new ItemRepositoryDatabase(connection);
-	orderRepository = new OrderRepositoryMemory();
-	couponRepository = new CouponRepositoryDatabase(connection);
+	repositoryFactory = new DatabaseRepositoryFactory(connection);
 });
 
 test("Deve fazer um pedido", async function () {
-	const placeOrder = new PlaceOrder(itemRepository, orderRepository, couponRepository);
+	const placeOrder = new PlaceOrder(repositoryFactory);
 	const input = {
 		cpf: "935.411.347-80",
 		orderItems: [
@@ -39,7 +38,7 @@ test("Deve fazer um pedido", async function () {
 });
 
 test("Deve fazer um pedido calculando o código", async function () {
-	const placeOrder = new PlaceOrder(itemRepository, orderRepository, couponRepository);
+	const placeOrder = new PlaceOrder(repositoryFactory);
 	const input = {
 		cpf: "935.411.347-80",
 		orderItems: [

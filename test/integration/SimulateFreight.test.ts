@@ -1,19 +1,19 @@
 import SimulateFreight from "../../src/application/usecase/simulate-freight/SimulateFreight";
-import ItemRepository from "../../src/domain/repository/ItemRepository";
+import RepositoryFactory from "../../src/domain/factory/RepositoryFactory";
 import Connection from "../../src/infra/database/Connection";
 import PostgreSQLConnectionAdapter from "../../src/infra/database/PostgreSQLConnectionAdapter";
-import ItemRepositoryDatabase from "../../src/infra/repository/database/ItemRepositoryDatabase";
+import MemoryRepositoryFactory from "../../src/infra/factory/MemoryRepositoryFactory";
 
 let connection: Connection;
-let itemRepository: ItemRepository;
+let repositoryFactory: RepositoryFactory;
 
 beforeEach(function () {
 	connection = new PostgreSQLConnectionAdapter();
-	itemRepository = new ItemRepositoryDatabase(connection);
+	repositoryFactory = new MemoryRepositoryFactory();
 });
 
 test("Deve simular o frete de um pedido", async function () {
-	const simulateFreight = new SimulateFreight(itemRepository);
+	const simulateFreight = new SimulateFreight(repositoryFactory);
 	const input = {
 		orderItems: [
 			{ idItem: 1, quantity: 1},
