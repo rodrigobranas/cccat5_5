@@ -12,3 +12,7 @@ test("Deve criar um item com dimensões e calcular a densidade", function () {
 	const density = item.getDensity();
 	expect(density).toBe(100);
 });
+
+test("Deve lançar uma exception se o peso do item for negativo", function () {
+	expect(() => new Item(1, "Instrumentos Musicais", "Guitarra", 1000, new Dimension(100, 30, 10), -100)).toThrow(new Error("Invalid weight"));
+});

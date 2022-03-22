@@ -61,3 +61,14 @@ test("Deve criar um pedido e calcular o código", function () {
 	order.addItem(new Item(3, "Instrumentos Musicais", "Cabo", 30), 3);
 	expect(order.code.value).toBe("202100000001");
 });
+
+test("Deve lançar uma exception ao tentar criar um pedido com quantidade negativa", function () {
+	const order = new Order("935.411.347-80");
+	expect(() => order.addItem(new Item(1, "Instrumentos Musicais", "Guitarra", 1000), -100)).toThrow(new Error("Quantity must be positive"));
+});
+
+test("Deve lançar uma exception ao tentar criar um pedido com item duplicado", function () {
+	const order = new Order("935.411.347-80");
+	order.addItem(new Item(1, "Instrumentos Musicais", "Guitarra", 1000), 1)
+	expect(() => order.addItem(new Item(1, "Instrumentos Musicais", "Guitarra", 1000), 1)).toThrow(new Error("Duplicated item"));
+});

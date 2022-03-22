@@ -4,13 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && jest ./dist"
+    "test": "tsc && jest ./dist",
+	"main": "tsc && node ./dist/src/main"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@hapi/hapi": "^20.2.1",
+    "@types/express": "^4.17.13",
+    "@types/hapi__hapi": "^20.0.10",
     "@types/jest": "^27.4.0",
+    "axios": "^0.26.1",
+    "express": "^4.17.3",
     "jest": "^27.5.1",
     "pg-promise": "^10.11.1",
     "typescript": "^4.5.5"

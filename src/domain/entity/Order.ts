@@ -7,7 +7,7 @@ import OrderItem from "./OrderItem";
 
 export default class Order {
 	cpf: Cpf;
-	private orderItems: OrderItem[];
+	orderItems: OrderItem[];
 	coupon: Coupon | undefined;
 	freight: Freight;
 	code: OrderCode;
@@ -20,6 +20,8 @@ export default class Order {
 	}
 
 	addItem (item: Item, quantity: number) {
+		if (quantity < 0) throw new Error("Quantity must be positive");
+		if (this.orderItems.some(orderItem => orderItem.idItem === item.idItem)) throw new Error("Duplicated item");
 		this.freight.addItem(item, quantity);
 		this.orderItems.push(new OrderItem(item.idItem, item.price, quantity));
 	}

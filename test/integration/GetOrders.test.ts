@@ -1,7 +1,9 @@
+import GetOrder from "../../src/application/usecase/get-order/GetOrder";
+import GetOrders from "../../src/application/usecase/get-orders/GetOrders";
 import PlaceOrder from "../../src/application/usecase/place-order/PlaceOrder";
-import PostgreSQLConnectionAdapter from "../../src/infra/database/PostgreSQLConnectionAdapter";
-import Connection from "../../src/infra/database/Connection";
 import RepositoryFactory from "../../src/domain/factory/RepositoryFactory";
+import Connection from "../../src/infra/database/Connection";
+import PostgreSQLConnectionAdapter from "../../src/infra/database/PostgreSQLConnectionAdapter";
 import DatabaseRepositoryFactory from "../../src/infra/factory/DatabaseRepositoryFactory";
 
 let connection: Connection;
@@ -14,23 +16,7 @@ beforeEach(async function () {
 	await orderRepository.clean();
 });
 
-test("Deve fazer um pedido", async function () {
-	const placeOrder = new PlaceOrder(repositoryFactory);
-	const input = {
-		cpf: "935.411.347-80",
-		orderItems: [
-			{ idItem: 1, quantity: 1},
-			{ idItem: 2, quantity: 1},
-			{ idItem: 3, quantity: 3}
-		],
-		coupon: "VALE20",
-		issueDate: new Date("2021-03-01T10:00:00")
-	};
-	const output = await placeOrder.execute(input);
-	expect(output.total).toBe(5132);
-});
-
-test("Deve fazer um pedido calculando o código", async function () {
+test("Deve obter a lista de pedidos", async function () {
 	const placeOrder = new PlaceOrder(repositoryFactory);
 	const input = {
 		cpf: "935.411.347-80",
@@ -43,8 +29,12 @@ test("Deve fazer um pedido calculando o código", async function () {
 		issueDate: new Date("2021-03-01T10:00:00")
 	};
 	await placeOrder.execute(input);
-	const output = await placeOrder.execute(input);
-	expect(output.code).toBe("202100000002");
+	await placeOrder.execute(input);
+	await placeOrder.execute(input);
+	const getOrders = new GetOrders(repositoryFactory);
+	const output = await getOrders.execute();
+	console.log(output);
+	expect(output).toHaveLength(3);
 });
 
 afterEach(async function () {
