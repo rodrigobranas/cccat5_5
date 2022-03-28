@@ -15,7 +15,7 @@ beforeEach(async function () {
 	await orderRepository.clean();
 });
 
-test("Deve testar a API", async function () {
+test.skip("Deve testar a API", async function () {
 	const placeOrder = new PlaceOrder(repositoryFactory);
 	const input = {
 		cpf: "935.411.347-80",
