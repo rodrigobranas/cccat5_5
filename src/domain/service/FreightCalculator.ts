@@ -1,4 +1,4 @@
-import Item from "./Item";
+import Item from "../entity/Item";
 
 export default class FreightCalculator {
 

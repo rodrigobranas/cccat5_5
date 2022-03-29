@@ -1,5 +1,5 @@
 import Dimension from "../../src/domain/entity/Dimension";
-import FreightCalculator from "../../src/domain/entity/FreightCalculator";
+import FreightCalculator from "../../src/domain/service/FreightCalculator";
 import Item from "../../src/domain/entity/Item";
 
 test("Deve calcular o frete de um item", function () {
